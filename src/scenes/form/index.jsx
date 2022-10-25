@@ -16,15 +16,31 @@ const initialValues = {
 const phoneRegExp = /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 const userSchema = yup.object().shape({
-	firstName: yup.string().min(2, 'Too Short').max(50, 'Too Long').required("required"),
-	lastName: yup.string().min(2, 'Too Short').max(50, 'Too Long').required("required"),
+	firstName: yup
+		.string()
+		.min(2, "Too Short")
+		.max(50, "Too Long")
+		.required("required"),
+	lastName: yup
+		.string()
+		.min(2, "Too Short")
+		.max(50, "Too Long")
+		.required("required"),
 	email: yup.string().email("Invalid Email").required("required"),
 	contact: yup
 		.string()
 		.matches(phoneRegExp, "Phone number is not vaid")
 		.required("required"),
-	address1: yup.string().min(2, 'Too Short').max(120, 'Too Long').required("required"),
-	address2: yup.string().min(2, 'Too Short').max(120, 'Too Long').required("required"),
+	address1: yup
+		.string()
+		.min(2, "Too Short")
+		.max(120, "Too Long")
+		.required("required"),
+	address2: yup
+		.string()
+		.min(2, "Too Short")
+		.max(120, "Too Long")
+		.required("required")
 });
 
 const Form = () => {
@@ -34,15 +50,22 @@ const Form = () => {
 		// e.preventDefault()
 		console.log(values);
 	};
-    
+
 	return (
 		<Box m="20px">
 			<Header title="Create User" subtitle="Create a New User Profile" />
 			<Formik
-				onSubmit={handleFormSubmit}
+				// onSubmit={handleFormSubmit}
+				onSubmit={(values, actions) => {
+					handleFormSubmit(values);
+					actions.setSubmitting(false);
+					actions.resetForm({
+						values: initialValues
+					});
+				}}
 				initialValues={initialValues}
 				validationSchema={userSchema}
-                // validator={() => ({})}
+				// validator={() => ({})}
 			>
 				{({
 					values,
@@ -51,7 +74,8 @@ const Form = () => {
 					handleBlur,
 					handleChange,
 					handleSubmit,
-				}) => (
+					handleReset
+				}) =>
 					<form onSubmit={handleSubmit}>
 						<Box
 							display="grid"
@@ -63,9 +87,9 @@ const Form = () => {
 										? undefined
 										: "span 4"
 								},
-                                "& .MuiFormHelperText-contained": {
-                                    color: 'red',
-                                }
+								"& .MuiFormHelperText-contained": {
+									color: "red"
+								}
 							}}
 						>
 							<TextField
@@ -77,7 +101,9 @@ const Form = () => {
 								onChange={handleChange}
 								value={values.firstName}
 								name="firstName"
-								errors={!!touched.firstName && !!errors.firstName}
+								errors={
+									!!touched.firstName && !!errors.firstName
+								}
 								helperText={
 									touched.firstName && errors.firstName
 								}
@@ -161,13 +187,16 @@ const Form = () => {
 								}}
 							/>
 						</Box>
-                        <Box display="flex" justifyContent="end" mt="20px">
-                            <Button type="submit" color="secondary" variant="contained">
-                                Create New User
-                            </Button>
-                        </Box>
-					</form>
-    )}
+						<Box display="flex" justifyContent="end" mt="20px">
+							<Button
+								type="submit"
+								color="secondary"
+								variant="contained"
+							>
+								Create New User
+							</Button>
+						</Box>
+					</form>}
 			</Formik>
 		</Box>
 	);
