@@ -71,6 +71,9 @@ const SideBarPage = () => {
 					"& .menu-item.active": {
 						color: "#6870fa !important",
 				},
+				"& li > a": {
+                    backgroundColor: 'transparent !important'
+                },
 			}}
 		>
 			<Sidebar  collapsed={isCollapsed}>
@@ -93,7 +96,7 @@ const SideBarPage = () => {
 									variant="h3"
 									color={colors.grey[100]}
 								>
-									ADMIN
+									{/* ADMIN */}
 								</Typography>
 								<IconButton
 									onClick={() => setIsCollapsed(!isCollapsed)}
