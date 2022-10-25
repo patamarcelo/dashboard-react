@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Sidebar, useProSidebar, Menu, MenuItem } from "react-pro-sidebar";
+import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import "./SideBar.css";
 // import 'react-pro-sidebar/dist/css/styles.css';
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -20,19 +20,24 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
+	const navigate = useNavigate()
+	
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
+	const handlerClick = () => {
+		setSelected(title);
+		navigate(`${to}`)
+	}
 	return (
 		<MenuItem
 			active={selected === title}
-			style={{ color: colors.grey[100] }}
-			onClick={() => setSelected(title)}
+			// style={{ color: colors.grey[100] }}
+			onClick={handlerClick}
 			icon={icon}
 		>
 			<Typography>
 				{title}
 			</Typography>
-			<Link to={to} />
 		</MenuItem>
 	);
 };
@@ -45,28 +50,31 @@ const SideBarPage = () => {
 
 	return (
 		<Box
-			width="20%"
-            height="100%"
 			sx={{
-				"& .css-kjhon7": {
-					background: `${colors.primary[400]} !important`
+				"& .sidebar-inner": {
+					background: `${colors.primary[400]} !important`,
+					height: '100vh'
 				},
-				"& .pro-icon-wrapper": {
+				"& .sidebar": {
+					border: `none !important`
+				},
+				"& .menu-icon": {
 					backgroundColor: "transparent !important"
 				},
-				"& .pro-inner-item": {
-					padding: "5px 35px 5px 20px !important"
+				// "& .-item": {
+					// 	padding: "5px 35px 5px 20px !important"
+					// },
+					"& .menu-anchor:hover": {
+						color: "#868dfb !important",
+						backgroundColor: "transparent !important"
+					},
+					"& .menu-item.active": {
+						color: "#6870fa !important",
 				},
-				"& .inner-item:hover": {
-					color: "#868dfb !important"
-				},
-				"& .menu-item.active": {
-					color: "#6870fa !important"
-				}
 			}}
 		>
 			<Sidebar  collapsed={isCollapsed}>
-				<Menu iconShape="saquare">
+				<Menu>
 					<MenuItem
 						onClick={() => setIsCollapsed(!isCollapsed)}
 						icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
@@ -109,7 +117,8 @@ const SideBarPage = () => {
 									height="100px"
 									style={{
 										cursor: "pointer",
-										borderRadius: "50%"
+										borderRadius: "50%",
+										objectFit: 'contain,'
 									}}
 									alt="profile-user"
 								/>
