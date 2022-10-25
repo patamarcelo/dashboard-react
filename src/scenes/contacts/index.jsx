@@ -12,7 +12,7 @@ const Contacts = () => {
 
 	const columns = [
 		{ field: "id", headerName: "ID", flex: 0.5 },
-		{ field: "regisrarId", headerName: "Registrar ID", flex: 0.5 },
+		{ field: "registrarId", headerName: "Registrar ID", flex: 0.5 },
 		{
 			field: "name",
 			headerName: "Name",
@@ -41,7 +41,7 @@ const Contacts = () => {
                     border: "none"
                 },
                 "& .MuiDataGrid-cell": {
-                    borderBottom: "none"
+                    // borderBottom: "none"
                 },
                 "& .name-column--cell": {
                     color: colors.greenAccent[300]
