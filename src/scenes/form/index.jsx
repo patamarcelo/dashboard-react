@@ -44,7 +44,7 @@ const userSchema = yup.object().shape({
 });
 
 const Form = () => {
-	const isNonMobile = useMediaQuery("min-width: 600px");
+	const isNonMobile = useMediaQuery("(min-width: 600px)");
 
 	const handleFormSubmit = values => {
 		// e.preventDefault()
@@ -108,9 +108,9 @@ const Form = () => {
 									touched.firstName && errors.firstName
 								}
 								sx={{
-									gridColumn: "span 2"
+									gridColumn: "span 2",
 								}}
-							/>
+								/>
 							<TextField
 								fullWidth
 								variant="filled"
@@ -123,7 +123,7 @@ const Form = () => {
 								errors={!!touched.lastName && !!errors.lastName}
 								helperText={touched.lastName && errors.lastName}
 								sx={{
-									gridColumn: "span 2"
+									gridColumn: "span 2",
 								}}
 							/>
 							<TextField
@@ -188,6 +188,15 @@ const Form = () => {
 							/>
 						</Box>
 						<Box display="flex" justifyContent="end" mt="20px">
+							<Button
+								type="reset"
+								onClick={() => handleReset()}
+								color="warning"
+								variant="contained"
+								sx={{mr: '15px'}}
+							>
+								Reset Form
+							</Button>
 							<Button
 								type="submit"
 								color="secondary"
