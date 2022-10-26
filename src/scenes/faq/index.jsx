@@ -23,7 +23,7 @@ const FAQ = () => {
 			<Header title="FAQ" subtitle="Frequently Asked Questions Page" />
 			{QUESTIONS.map((question, index) => {
 				return (
-					<Accordion defaultExpanded={index > 1 ? false : true}>
+					<Accordion key={index} defaultExpanded={index > 1 ? false : true}>
 						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 							<Typography
 								variant="h5"

@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useLayoutEffect } from 'react'
 import React from 'react'
 import FullCalendar, { formatDate } from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from "@fullcalendar/interaction";
-// import moment from "moment";
+import moment from "moment";
 
 import { Box, List, ListItem, ListItemText, Typography, useTheme } from '@mui/material'
 
@@ -17,6 +17,8 @@ const Calendar = () => {
     const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
     const [ currentEvents, setCurrentEvents ] = useState([])
+    const [ initialArrEvents, setInitialArrEvents ] = useState([])
+    const [ isLoading, setLoading] = useState(false)
 
     const handleDateClick = (selected) => {
         console.log('Selected: ', selected);
@@ -44,22 +46,30 @@ const Calendar = () => {
 
     
 
-    // useEffect(() => {
-    //     const handlerToday = () => {
-    //         const today = moment(new Date()).format("YYYY/MM/DD")
-    //         const newEvents = [
-    //             { id:  "1234", title: "all day event", date: `${String(today)}`},
-    //             { id:  "14", title: "New Event", date: "2022/10/24"}
-    //         ];
-    //         setCurrentEvents(newEvents);
-    //         return newEvents
-    //     }
-    //     handlerToday()
-    // },[])
+    useEffect(() => {
+        const handlerToday = () => {
+            const today = moment(new Date()).format("YYYY/MM/DD")
+            const newEvents = [
+                { id:  "1234", title: "all day event", date: `${(today)}`},
+                { id:  "14", title: "New Event", date: "2022/10/24"}
+            ];
+            setInitialArrEvents(newEvents);
+        }
+            handlerToday()
+    },[])
+
+    useEffect(() => {
+        setLoading(true)
+    },[initialArrEvents])
 
 
+console.log(typeof initialArrEvents)
+console.log(isLoading)
 
     return (
+        <>
+        {
+        isLoading && 
         <Box m="20px">
             <Header title="Calendar" subtitle="Full Calendar Interactive Page" />
             <Box display="flex" justifyContent="space-between">
@@ -117,15 +127,17 @@ const Calendar = () => {
                     select={handleDateClick}
                     eventClick={handleEventClick}
                     eventsSet={ (events) => setCurrentEvents(events)}
-                    // initialEvents={currentEvents}
-                    initialEvents={[
-                        { id:  "1234", title: "all day event", date: "2022-10-23"},
-                        { id:  "34", title: "all day event", date: "2022-10-27"},
-                    ]}
+                    initialEvents={initialArrEvents}
+                    // initialEvents={[
+                    //     { id:  "1234", title: "all day event", date: "2022-10-23"},
+                    //     { id:  "34", title: "all day event", date: "2022-10-27"},
+                    // ]}
                     />
                 </Box>
             </Box>
-        </Box>
+        </Box>    
+        }
+        </>
     )
 }
 
