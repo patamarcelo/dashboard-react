@@ -127,7 +127,6 @@ console.log(isLoading)
                     select={handleDateClick}
                     eventClick={handleEventClick}
                     eventsSet={ (events) => setCurrentEvents(events)}
-                    initialEvents={initialArrEvents}
                     // initialEvents={[
                     //     { id:  "1234", title: "all day event", date: "2022-10-23"},
                     //     { id:  "34", title: "all day event", date: "2022-10-27"},
