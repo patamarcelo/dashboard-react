@@ -8,7 +8,7 @@ const Line = () => {
 	const colors = tokens(theme.palette.mode);
     return (
         <Box m="20px">
-            <Header title="Pie Chart" subtitle="Simple Pie Chart" />
+            <Header title="Line Chart" subtitle="Simple Line Chart" />
             <Box height="75vh" sx={{ backgroundColor: colors.primary[400] }}>
                 <LineChart />
             </Box>
