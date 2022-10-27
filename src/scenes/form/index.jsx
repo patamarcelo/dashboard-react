@@ -3,6 +3,8 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
+import { addUser } from "../../utils/firebase/firebase";
+import { useNavigate } from "react-router-dom";
 
 const initialValues = {
 	firstName: "",
@@ -35,20 +37,32 @@ const userSchema = yup.object().shape({
 		.string()
 		.min(2, "Too Short")
 		.max(120, "Too Long")
-		.required("required"),
-	address2: yup
-		.string()
-		.min(2, "Too Short")
-		.max(120, "Too Long")
 		.required("required")
+	// address2: yup
+	// 	.string()
+	// 	.min(2, "Too Short")
+	// 	.max(120, "Too Long")
+	// 	.required("required")
 });
 
 const Form = () => {
 	const isNonMobile = useMediaQuery("(min-width: 600px)");
+	const navigate = useNavigate();
 
-	const handleFormSubmit = values => {
-		// e.preventDefault()
-		console.log(values);
+	const handleFormSubmit = async values => {
+		try {
+			await addUser(
+				values.firstName,
+				values.lastName,
+				values.email,
+				values.contact,
+				values.address1,
+				values.address2
+			);
+			navigate('/contacts')
+		} catch (e) {
+			console.log("Error adding user: ", e);
+		}
 	};
 
 	return (
@@ -108,9 +122,9 @@ const Form = () => {
 									touched.firstName && errors.firstName
 								}
 								sx={{
-									gridColumn: "span 2",
+									gridColumn: "span 2"
 								}}
-								/>
+							/>
 							<TextField
 								fullWidth
 								variant="filled"
@@ -123,7 +137,7 @@ const Form = () => {
 								errors={!!touched.lastName && !!errors.lastName}
 								helperText={touched.lastName && errors.lastName}
 								sx={{
-									gridColumn: "span 2",
+									gridColumn: "span 2"
 								}}
 							/>
 							<TextField
@@ -193,7 +207,7 @@ const Form = () => {
 								onClick={() => handleReset()}
 								color="warning"
 								variant="contained"
-								sx={{mr: '15px'}}
+								sx={{ mr: "15px" }}
 							>
 								Reset Form
 							</Button>

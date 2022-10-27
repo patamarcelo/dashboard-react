@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataContacts } from "../../data/mockData";
@@ -6,9 +6,13 @@ import { mockDataContacts } from "../../data/mockData";
 import Header from "../../components/Header";
 import { useTheme } from '@mui/material'
 
+import { getContactsQuery } from '../../utils/firebase/firebase'
+import { useState, useEffect } from 'react'
+
 const Contacts = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
+	const [ contacts, setContacts] = useState([])
 
 	const columns = [
 		{ field: "id", headerName: "ID", flex: 0.5 },
@@ -32,6 +36,22 @@ const Contacts = () => {
 		{ field: "city", headerName: "City", flex: 1 },
 		{ field: "zipCode", headerName: "Zip Code", flex: 1 },
 	];
+
+	const handlerContacts = async () => {
+		try{
+			const contactsReceived = await getContactsQuery()
+			setContacts(contactsReceived)
+		} catch(e){
+			console.log("Error getting contacts: ", e)
+		}
+	}
+
+	useEffect(() => {
+		handlerContacts()
+	},[])
+
+	console.log('Contacts from Firebase: ', contacts)
+
 	return (
 		<Box m="20px">
 			<Header title="CONTACTS" subtitle="List of Contacts for future reference" />
