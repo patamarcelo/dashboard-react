@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import "./SideBar.css";
 // import 'react-pro-sidebar/dist/css/styles.css';
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { tokens } from "../../theme";
 
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -43,12 +43,43 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 	);
 };
 
+const DICT_NAV = {
+	form: 'Profile Form',
+	team: "Manage Team",
+	contacts: "Contacts Information",
+	invoices: "Invoices Balances",
+	calendar: "Calendar",
+	faq: "FAQ",
+	bar: "Bar Chart",
+	pie: 'Pie Chart',
+	line: 'Line Chart',
+	geo: "Geography Chart"
+}
+
+
 const SideBarPage = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	const [isCollapsed, setIsCollapsed] = useState(false);
 	const [selected, setSelected] = useState("Dashboard");
+	const location = useLocation();
+	const realLocation = location.pathname.split('/')[1]
 
+	useEffect(() =>{
+		if(realLocation.length > 0){
+			setSelected(DICT_NAV[realLocation])
+		}
+	},[])
+	
+	// const toTitleCase = (str) => {
+	// 	return str.replace(
+	// 	  /\w\S*/g,
+	// 	  function(txt) {
+	// 		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+	// 	  }
+	// 	);
+	//   }
+	
 	return (
 		<Box
 			sx={{

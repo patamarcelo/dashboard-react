@@ -12,12 +12,11 @@ import { Box, List, ListItem, ListItemText, Typography, useTheme } from '@mui/ma
 import Header from '../../components/Header'
 import { tokens } from '../../theme'
 
-
 const Calendar = () => {
     const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
     const [ currentEvents, setCurrentEvents ] = useState([])
-    const [ initialArrEvents, setInitialArrEvents ] = useState([])
+    const [ initialArrEvents, setInitialArrEvents ] = useState({})
     const [ isLoading, setLoading] = useState(false)
 
     const handleDateClick = (selected) => {
@@ -46,25 +45,23 @@ const Calendar = () => {
 
     
 
-    useEffect(() => {
+    
         const handlerToday = () => {
-            const today = moment(new Date()).format("YYYY/MM/DD")
-            const newEvents = [
-                { id:  "1234", title: "all day event", date: `${(today)}`},
-                { id:  "14", title: "New Event", date: "2022/10/24"}
-            ];
+            const today = moment(new Date()).format("YYYY-MM-DD")
+            const tomorrow = moment().add(-2,'days').format("YYYY-MM-DD");
+            const afterTomorrow = moment().add(2,'days').format("YYYY-MM-DD");
+            const newEvents = [{ id:  "1234", title: "all day event", date: `${(today)}`},
+                { id:  "14", title: "Try Events", date: `${tomorrow}`},
+                { id:  "14123", title: "Again here", date: `${afterTomorrow}`},
+            ]
             setInitialArrEvents(newEvents);
         }
-            handlerToday()
+        
+    useEffect(() => {
+        handlerToday()
+        setLoading(true)
     },[])
 
-    useEffect(() => {
-        setLoading(true)
-    },[initialArrEvents])
-
-
-console.log(typeof initialArrEvents)
-console.log(isLoading)
 
     return (
         <>
@@ -127,6 +124,8 @@ console.log(isLoading)
                     select={handleDateClick}
                     eventClick={handleEventClick}
                     eventsSet={ (events) => setCurrentEvents(events)}
+                    // events={newEvents}
+                    initialEvents={initialArrEvents}
                     // initialEvents={[
                     //     { id:  "1234", title: "all day event", date: "2022-10-23"},
                     //     { id:  "34", title: "all day event", date: "2022-10-27"},
