@@ -57,8 +57,19 @@ const Calendar = () => {
             setInitialArrEvents(newEvents);
         }
         
+        // const apiFetch = async () => {
+        //     await fetch('http://localhost:5500/calendar')
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         console.log(data)
+        //         setInitialArrEvents(data)
+        //     })
+        // }
+
+
     useEffect(() => {
         handlerToday()
+        // apiFetch()
         setLoading(true)
     },[])
 
@@ -124,8 +135,7 @@ const Calendar = () => {
                     select={handleDateClick}
                     eventClick={handleEventClick}
                     eventsSet={ (events) => setCurrentEvents(events)}
-                    // events={newEvents}
-                    initialEvents={initialArrEvents}
+                    events={initialArrEvents}
                     // initialEvents={[
                     //     { id:  "1234", title: "all day event", date: "2022-10-23"},
                     //     { id:  "34", title: "all day event", date: "2022-10-27"},
