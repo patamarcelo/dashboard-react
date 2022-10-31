@@ -56,8 +56,8 @@ const Auth = () => {
 	};
 
 	const userSchema = yup.object().shape({
-		username: yup.string().email("Invalid Email").required("required"),
-		password: yup.string().min(7, "Too Short").required("required")
+		username: yup.string().email("Invalid Email").required("Required"),
+		password: yup.string().min(7, "Too Short").required("Required")
 	});
 
 	return (
@@ -126,7 +126,8 @@ const Auth = () => {
 											: "span 4"
 									},
 									"& .MuiFormHelperText-contained": {
-										color: "red"
+										color: "red",
+										fontSize: "12px"
 									},
 									margin: " 0 auto"
 								}}
@@ -187,3 +188,5 @@ const Auth = () => {
 };
 
 export default Auth;
+
+
