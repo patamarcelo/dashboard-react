@@ -1,9 +1,12 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
 import { query, orderBy, onSnapshot, getDocs } from "firebase/firestore";
 
 import { collection, addDoc, Timestamp } from "firebase/firestore";
+
 const firebaseConfig = {
 	apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
 	authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -60,3 +63,25 @@ export const getContactsQuery = async () => {
 		};
 	});
 };
+
+const auth = getAuth();
+
+export const authUser = async (email, password) => {
+	if (!email || !password) return;
+	return await signInWithEmailAndPassword(auth, email, password);
+};
+
+// signInWithEmailAndPassword(auth, email, password)
+// 	.then((userCredential) => {
+// 		// Signed in
+// 		const user = userCredential.user;
+// 		console.log(user);
+// 		console.log("usuario autenticado com sucesso");
+// 		// ...
+// 	})
+// 	.catch((error) => {
+// 		const errorCode = error.code;
+// 		console.log("Error Code", errorCode);
+// 		const errorMessage = error.message;
+// 		console.log("Error Message :", errorMessage);
+// 	});
